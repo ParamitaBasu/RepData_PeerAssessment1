@@ -1,13 +1,9 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 library(ggplot2)
 
-```{r histogram1}
+
+```r
 ## Loading and preprocessing the data
 
 # 1.Load the data
@@ -48,16 +44,33 @@ names(totalstepsperday) <- c("date","total")
 hist(totalstepsperday$total, 
      xlab="Total number of steps", 
      main="Histogram of the total number of steps taken each day")
+```
 
+![](PA1_template_files/figure-html/histogram1-1.png)<!-- -->
+
+```r
 # Calculate the mean and median of the total number of steps taken per day
 
 mean(totalstepsperday$total)
+```
+
+```
+## [1] 9354.23
+```
+
+```r
 median(totalstepsperday$total)
+```
 
-```{r}
+```
+## [1] 10395
+```
 
+```r
 ## What is the average daily activity pattern?
-```{r time-series1}
+```
+
+```r
 # Compute the means of steps across all days for each interval
 meandata <- aggregate(activitydata$steps, 
                        by=list(activitydata$interval), 
@@ -75,21 +88,37 @@ plot(meandata$interval,
      xlab="Interval [minutes]", 
      ylab="Average number of steps", 
      main="Time-series of the average number of steps per intervals")
+```
 
+![](PA1_template_files/figure-html/time-series1-1.png)<!-- -->
+
+```r
 # Position of the maximum mean
 posmax <- which(meandata$mean == max(meandata$mean))
 
 # 2.The 5-minute interval, on average across all the days in the dataset that contains the maximum number of steps i.e. Value of interval at the max position
 
 meandata[posmax, 1]
+```
 
-```{r}
+```
+## [1] 835
+```
 
+```r
 ## Imputing missing values
-```{r histogram2}
+```
+
+```r
 # 1.Total number of missing values in the dataset
 sum(is.na(activitydata$steps))
+```
 
+```
+## [1] 2304
+```
+
+```r
 # 2.Strategy is to replace each NA value by the mean of the steps attribute
 
 # Find the NA positions
@@ -115,16 +144,32 @@ names(stepsperday) <- c("date", "total")
 hist(stepsperday$total, 
      xlab="Total number of steps", 
      main="Histogram of the total number of steps taken each day\n(NA replaced)")
+```
 
+![](PA1_template_files/figure-html/histogram2-1.png)<!-- -->
+
+```r
 # Calculate the mean and median total number of steps taken per day
 mean(stepsperday$total)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(stepsperday$total)
+```
 
-```{r}
+```
+## [1] 10766.19
+```
 
+```r
 ## Are there differences in activity patterns between weekdays and weekends?
+```
 
-```{r time-series2}
+```r
 # Compute the average number of steps taken, averaged across all daytype variable
 meandata <- aggregate(activitydata$steps, 
                        by=list(activitydata$daytype, 
@@ -142,5 +187,7 @@ xyplot(mean ~ interval | daytype, meandata,
        xlab="Interval", 
        ylab="Number of steps", 
        layout=c(1,2))
-```{r}
+```
+
+![](PA1_template_files/figure-html/time-series2-1.png)<!-- -->
 
